@@ -1,0 +1,57 @@
+# LaTeX
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.xdv
+*.nav
+*.snm
+*.vrb
+*.lof
+*.lot
+*.idx
+*.ilg
+*.ind
+*.bcf
+*.run.xml
+*.synctex(busy)
+auto/
+
+# C++ / CMake
+build/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile.cmake
+compile_commands.json
+*.o
+*.a
+*.so
+*.exe
+*.out
+*.app
+
+# Python (optional data scripts)
+__pycache__/
+.venv/
+venv/
+*.pyc
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*~
+*.swp
+.idea/
+.vs/
+
+# Keep local experiment dumps out of git by default
+**/data/*.csv
+**/data/*.json
+!**/data/.gitkeep

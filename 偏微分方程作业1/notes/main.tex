@@ -1,0 +1,122 @@
+\documentclass[UTF8, a4paper, 12pt]{ctexart}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{bm}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\geometry{margin=2.5cm}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue,
+  citecolor=black
+}
+
+\lstset{
+  language=C++,
+  basicstyle=\small\ttfamily,
+  keywordstyle=\color{blue!60!black}\bfseries,
+  commentstyle=\color{green!40!black},
+  stringstyle=\color{purple},
+  breaklines=true,
+  frame=single,
+  columns=fullflexible,
+  tabsize=2
+}
+
+\theoremstyle{definition}
+\newtheorem{problem}{题目}
+\theoremstyle{plain}
+\newtheorem{proposition}{命题}
+\newtheorem{lemma}{引理}
+
+\title{偏微分方程作业 1}
+\author{姓名：\underline{\hspace{4cm}} \quad 学号：\underline{\hspace{4cm}}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+\vspace{1em}
+
+\section{作业说明}
+
+本次作业的材料分三处存放：
+
+\begin{itemize}[leftmargin=2em]
+  \item 本文件：解析推导与文字解答；
+  \item \texttt{../cpp/}：C++ 数值实现；
+  \item \texttt{../viz/}：HTML 可视化。
+\end{itemize}
+
+编译本笔记：
+
+\begin{verbatim}
+latexmk -xelatex notes/main.tex
+\end{verbatim}
+
+\section{题目与解答}
+
+\begin{problem}[请替换为实际题目]
+在区间 \(x\in[0,1]\)、时间 \(t\ge 0\) 上考虑一维热方程
+\begin{equation}
+  u_t = k u_{xx},
+  \qquad
+  u(0,t)=u(1,t)=0,
+  \qquad
+  u(x,0)=f(x).
+\end{equation}
+讨论适定性，并给出一种稳定的有限差分格式。
+\end{problem}
+
+\subsection*{解答}
+
+将题目、推导、中间步骤写在这里。需要插图时，把文件放到 \texttt{figures/}：
+
+\begin{verbatim}
+\includegraphics[width=0.8\linewidth]{figures/example.png}
+\end{verbatim}
+
+\section{数值方法}
+
+仓库中的示例程序求解一维热方程的显式差分（FTCS）：
+\begin{equation}
+  \frac{u_j^{n+1}-u_j^n}{\Delta t}
+  =
+  k\frac{u_{j+1}^n-2u_j^n+u_{j-1}^n}{(\Delta x)^2}.
+\end{equation}
+稳定条件为
+\begin{equation}
+  r = \frac{k\Delta t}{(\Delta x)^2} \le \tfrac12.
+\end{equation}
+
+默认初值取中间的高斯包络
+\[
+  f(x)=\exp\bigl(-80(x-1/2)^2\bigr),
+\]
+两端取齐次 Dirichlet 条件。若 \(r>1/2\)，程序会自动加大 \texttt{nt} 以满足稳定条件。按实际题目修改 \texttt{cpp/src/heat.cpp} 即可。
+
+\section{程序与可视化}
+
+\begin{verbatim}
+make cpp    # 写出 data/solution.json
+make viz    # 浏览器打开 http://localhost:8000/viz/
+\end{verbatim}
+
+运行后把关键截图贴到本节，并简要说明网格、时间步与观察到的现象。
+
+\section{参考}
+
+\begin{enumerate}[leftmargin=2em]
+  \item 课程讲义与课堂笔记。
+  \item Evans, L. C. \textit{Partial Differential Equations}.
+\end{enumerate}
+
+\end{document}

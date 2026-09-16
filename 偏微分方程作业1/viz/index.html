@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>偏微分方程作业 1 · 一维热方程</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="panel">
+      <header>
+        <p class="kicker">偏微分方程作业 1</p>
+        <h1>一维热方程可视化</h1>
+        <p id="status" class="status">正在读取 C++ 输出…</p>
+      </header>
+
+      <canvas id="plot" width="960" height="420" aria-label="温度随空间分布"></canvas>
+
+      <div class="controls">
+        <button id="play" type="button">暂停</button>
+        <label>
+          时间
+          <input id="frame" type="range" min="0" max="1" value="0" />
+        </label>
+        <span id="time-label">t = 0</span>
+      </div>
+
+      <dl id="meta" class="meta"></dl>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
