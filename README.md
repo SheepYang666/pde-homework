@@ -2,6 +2,8 @@
 
 课程作业仓库：每份作业一个独立文件夹，笔记用 LaTeX，数值实验用 C++，可视化用 HTML。
 
+GitHub：<https://github.com/SheepYang666/pde-homework>
+
 ## 目录约定
 
 ```text
