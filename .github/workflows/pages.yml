@@ -1,8 +1,8 @@
 name: Deploy homework 1 viz
 
+# GitHub Actions 当前因账号账单锁定无法跑 runner。
+# 站点改为从 main 的 /docs 发布；账单恢复后可再改回 push 触发。
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
