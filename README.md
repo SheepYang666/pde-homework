@@ -2,7 +2,8 @@
 
 课程作业仓库：每份作业一个独立文件夹，笔记用 LaTeX，数值实验用 C++，可视化用 HTML。
 
-GitHub：<https://github.com/SheepYang666/pde-homework>
+GitHub：<https://github.com/SheepYang666/pde-homework>  
+作业 1 可视化（本仓库 GitHub Pages）：<https://sheepyang666.github.io/pde-homework/>
 
 ## 目录约定
 
@@ -29,7 +30,7 @@ cp -a 偏微分方程作业1 偏微分方程作业2
 
 | 文件夹 | 说明 |
 | --- | --- |
-| [偏微分方程作业1](偏微分方程作业1/README.md) | 第一次作业：LaTeX 模板 + 一维热方程示例求解器 + 网页动画 |
+| [偏微分方程作业1](偏微分方程作业1/README.md) | 第一次作业：改进欧拉法解 `u'=sin u`，[在线可视化](https://sheepyang666.github.io/pde-homework/) |
 
 ## 环境
 

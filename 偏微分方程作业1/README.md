@@ -6,7 +6,7 @@
 | --- | --- |
 | `notes/main.tex` | 推导、解答、数值格式说明（XeLaTeX） |
 | `cpp/` | 一维热方程显式差分示例，结果写成 JSON |
-| `viz/` | 把 `data/solution.json` 画成随时间演化的曲线 |
+| `viz/` | 改进欧拉法可视化（解析解、预估–校正、相线、误差表） |
 
 把题目和解答写进 `notes/main.tex`。`cpp/` 与 `viz/` 是可运行的脚手架，可按题目改方程、边界条件和画法。
 
@@ -23,8 +23,9 @@ make viz
 - `make notes` 生成 `notes/main.pdf`
 - `make cpp` 在 `cpp/build/heat_1d` 编译求解器，并写入 `data/solution.json`
 - `make viz` 在作业根目录启动 `http://localhost:8000`，然后打开 [viz/](http://localhost:8000/viz/)
+- 在线页面（仅本仓库 GitHub Pages）：<https://sheepyang666.github.io/pde-homework/>
 
-可视化需要通过本地 HTTP 读取 `../data/solution.json`。若还没有跑过 `make cpp`，页面会改用浏览器内的简易求解器，界面仍可预览。
+页面在浏览器内完成改进欧拉迭代，不依赖 `data/solution.json`。
 
 ## 手动步骤
 

@@ -3,30 +3,187 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>偏微分方程作业 1 · 一维热方程</title>
+    <title>从 0.1 走向 π · 改进欧拉法</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Noto+Serif+SC:wght@400;600;700&family=Share+Tech+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="panel">
-      <header>
-        <p class="kicker">偏微分方程作业 1</p>
-        <h1>一维热方程可视化</h1>
-        <p id="status" class="status">正在读取 C++ 输出…</p>
-      </header>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
 
-      <canvas id="plot" width="960" height="420" aria-label="温度随空间分布"></canvas>
+    <header class="mast">
+      <div class="mast-copy">
+        <p class="kicker">偏微分方程作业 1 · 数值常微分方程</p>
+        <h1>从 <em>0.1</em> 走向 <em>π</em></h1>
+        <p class="lede">
+          自治方程 <span class="tex" data-tex="u'=\sin u"></span> 把解从初值
+          0.1 缓缓推向稳定平衡 <span class="tex" data-tex="\pi"></span>。
+          用二阶改进欧拉法（预估–校正）走到 <span class="tex" data-tex="t=10"></span>，
+          看 <span class="tex" data-tex="N"></span> 加倍时误差如何按
+          <span class="tex" data-tex="O(h^{2})"></span> 收缩。
+        </p>
+      </div>
+      <aside class="plate" aria-label="作者">
+        <span class="plate-k">报告</span>
+        <strong>章儒旸</strong>
+        <span class="plate-id">2026030127</span>
+      </aside>
+    </header>
 
-      <div class="controls">
-        <button id="play" type="button">暂停</button>
-        <label>
-          时间
-          <input id="frame" type="range" min="0" max="1" value="0" />
-        </label>
-        <span id="time-label">t = 0</span>
+    <section class="eqbar" aria-label="题目">
+      <div class="eqbar-math tex" data-tex="\dfrac{\mathrm{d}u}{\mathrm{d}t}=\sin u,\quad u(0)=0.1,\quad 0\le t\le 10" data-display="1"></div>
+      <p class="eqbar-note">
+        求 <span class="tex" data-tex="t=10"></span> 的数值解，比较
+        <span class="tex" data-tex="N=100,200,400,800"></span>
+        与精确解的误差 <span class="tex" data-tex="E=u(10)-u_{N}(10)"></span>
+      </p>
+    </section>
+
+    <section class="hero">
+      <div class="plot-card">
+        <div class="plot-head">
+          <span>轨迹</span>
+          <span class="plot-head-sub">金：精确解 · 青：改进欧拉 · 虚线：π</span>
+        </div>
+        <div class="plot-stage">
+          <canvas id="curve" width="960" height="520" aria-label="u 随 t 的精确解与数值解"></canvas>
+        </div>
+        <dl class="hud" id="hud"></dl>
+        <div class="controls">
+          <button id="play" type="button" aria-pressed="true">暂停</button>
+          <label class="scrub">
+            <span>时间</span>
+            <input id="time" type="range" min="0" max="1000" value="0" />
+          </label>
+          <div class="n-switch" role="group" aria-label="步数 N">
+            <span class="n-label">N</span>
+            <button type="button" data-n="100" class="is-on">100</button>
+            <button type="button" data-n="200">200</button>
+            <button type="button" data-n="400">400</button>
+            <button type="button" data-n="800">800</button>
+          </div>
+          <label class="check">
+            <input id="overlay" type="checkbox" />
+            叠放全部 N
+          </label>
+        </div>
       </div>
 
-      <dl id="meta" class="meta"></dl>
-    </main>
+      <aside class="derive">
+        <p class="mod-kicker">01</p>
+        <h2>解析解</h2>
+        <ol class="steps">
+          <li>
+            <p>分离变量</p>
+            <div class="tex" data-tex="\displaystyle\int\frac{\mathrm{d}u}{\sin u}=\int\mathrm{d}t" data-display="1"></div>
+            <div class="tex" data-tex="\ln\bigl|\tan\tfrac{u}{2}\bigr|=t+C" data-display="1"></div>
+          </li>
+          <li>
+            <p>代入 <span class="tex" data-tex="u(0)=0.1"></span></p>
+            <div class="tex" data-tex="C=\ln(\tan 0.05)" data-display="1"></div>
+            <div class="tex" data-tex="u(t)=2\arctan\!\bigl(e^{t}\tan 0.05\bigr)" data-display="1"></div>
+          </li>
+          <li>
+            <p>终点值</p>
+            <div class="tex" data-tex="u(10)=2\arctan\!\bigl(e^{10}\tan 0.05\bigr)" data-display="1"></div>
+            <p class="big-num" id="u-exact-label">3.1397781705</p>
+            <p class="hint">距 π 仍差约 1.81×10<sup>−3</sup>，数值误差则小两到四个量级。</p>
+          </li>
+        </ol>
+      </aside>
+    </section>
+
+    <section class="deck">
+      <article class="mod">
+        <p class="mod-kicker">02</p>
+        <h2>预估–校正</h2>
+        <p class="mod-lead">
+          每步先用欧拉公式预估，再用梯形公式校正。步长
+          <span class="tex" data-tex="h=10/N"></span>。
+        </p>
+        <div class="formula-stack">
+          <div class="tex" data-tex="\tilde u_{n+1}=u_n+h\,\sin u_n" data-display="1"></div>
+          <div class="tex" data-tex="u_{n+1}=u_n+\dfrac{h}{2}\bigl(\sin u_n+\sin\tilde u_{n+1}\bigr)" data-display="1"></div>
+        </div>
+        <div class="plot-stage plot-stage--sm">
+          <canvas id="heun" width="560" height="280" aria-label="当前步的预估与校正"></canvas>
+        </div>
+        <dl class="mini-hud" id="heun-hud"></dl>
+      </article>
+
+      <article class="mod">
+        <p class="mod-kicker">03</p>
+        <h2>相线</h2>
+        <p class="mod-lead">
+          <span class="tex" data-tex="f(u)=\sin u"></span>
+          在 <span class="tex" data-tex="(0,\pi)"></span> 恒正：解向右流，
+          <span class="tex" data-tex="u=0"></span> 不稳定，
+          <span class="tex" data-tex="u=\pi"></span> 稳定。靠近 π 时速度消失，所以曲线在末端几乎走平。
+        </p>
+        <div class="plot-stage plot-stage--sm">
+          <canvas id="phase" width="560" height="280" aria-label="一维相线与 sin u"></canvas>
+        </div>
+        <dl class="mini-hud" id="phase-hud"></dl>
+      </article>
+
+      <article class="mod">
+        <p class="mod-kicker">04</p>
+        <h2>二阶精度</h2>
+        <p class="mod-lead">
+          N 每加倍一次，误差约缩为 1/4。相邻误差比 4.097、4.041、4.019，逼近理论值 4。
+        </p>
+        <div class="plot-stage plot-stage--sm">
+          <canvas id="conv" width="560" height="280" aria-label="误差随步长的双对数图"></canvas>
+        </div>
+        <p class="stamp" id="stamp">与 <span class="tex" data-tex="O(h^{2})"></span> 相符</p>
+      </article>
+    </section>
+
+    <section class="results">
+      <div class="results-copy">
+        <p class="mod-kicker">05</p>
+        <h2>t = 10 处的数值解与误差</h2>
+        <p>
+          下表由页面内的改进欧拉迭代当场算出，与笔记
+          <code>notes/main.tex</code>
+          及 <code>data/euler_results.csv</code> 一致。点选一行可切换 N。
+        </p>
+      </div>
+      <div class="table-wrap">
+        <table id="err-table">
+          <thead>
+            <tr>
+              <th>N</th>
+              <th>步长 h</th>
+              <th>数值解 u<sub>N</sub>(10)</th>
+              <th>精确解 u(10)</th>
+              <th>误差 E</th>
+              <th>误差比</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="colophon">
+      <p>
+        核心迭代：<code>up = u + h * sin(u)</code>，
+        <code>u += 0.5 * h * (sin(u) + sin(up))</code>。
+        空格播放 / 暂停，数字 1–4 切换 N。
+      </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
